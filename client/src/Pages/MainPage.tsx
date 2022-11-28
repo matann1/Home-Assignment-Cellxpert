@@ -4,23 +4,7 @@ import { StoreContext } from "../Stores/DictionaryContext";
 import styled from "@emotion/styled";
 import BarChart from "../components/BarChart";
 import DoughnutChart from "../components/DoughnutChart";
-
-const StyleButton: any = styled.button`
-  background: linear-gradient(
-    45deg,
-    ${(props) => (props.color === "click" ? "#F8EDE3 10%" : "#D0B8A8 30%")},
-    ${(props) => (props.color === "click" ? "#F8EDE3 90%" : "#AF7AB3 70%")}
-  );
-  border-radius: 15px;
-  font-size: 20px;
-  border: 0;
-  margin: 10px;
-  color: black;
-  height: 48px;
-  padding: 0 30px;
-  font-weight: bold;
-  box-shadow: 0 3px 5px 2px rgba(207, 185, 151, 0.3);
-`;
+import Button from "../components/Button";
 
 const TopWrapper: any = styled.div`
   transition: box-shadow 400ms;
@@ -48,6 +32,77 @@ function MainPage() {
   const { dictionaryStore: ds } = useContext(StoreContext);
   const [inputLetter, setInputLetter] = useState<string>("");
 
+  const buttonsOptions = [
+    {
+      name: "Start With The Letter Above",
+      title: "Click to dispaly how many words start with the letter above",
+      color: `${ds.isToggleColorStart ? "click" : "clicked"}`,
+      func: () => {
+        ds.totalStart !== 0 ? ds.resetCountStart() : ds.wordsStart(inputLetter);
+        ds.totalStart === 0
+          ? ds.toggleColorStart(false)
+          : ds.toggleColorStart(true);
+      },
+    },
+    {
+      name: "End With The Letter Above",
+      title:
+        "Click to dispaly how many times the letter above appears in total",
+      color: `${ds.isToggleColorEnd ? "click" : "clicked"}`,
+      func: () => {
+        ds.totalEnd !== 0 ? ds.resetCountEnd() : ds.wordsEnd(inputLetter);
+        ds.totalEnd === 0 ? ds.toggleColorEnd(false) : ds.toggleColorEnd(true);
+      },
+    },
+    {
+      name: "Appears In Total",
+      title:
+        "Click to dispaly how many times the letter above appears in total",
+      color: `${ds.isToggleColorAppearsTotal ? "click" : "clicked"}`,
+      func: () => {
+        ds.totalAppears !== 0
+          ? ds.resetCountAppearsTotal()
+          : ds.wordsAppearsTotal(inputLetter);
+        ds.totalAppears === 0
+          ? ds.toggleColorAppearsTotal(false)
+          : ds.toggleColorAppearsTotal(true);
+      },
+    },
+    {
+      name: "Repeates In Conjunctions",
+      title:
+        "Click to dispaly how many times the letter above repeates in conjunction",
+      color: `${ds.isToggleColorConjunctions ? "click" : "clicked"}`,
+      func: () => {
+        ds.totalConjunctions !== 0
+          ? ds.resetCountConjunctions()
+          : ds.wordsConjunctions(inputLetter);
+        ds.totalConjunctions === 0
+          ? ds.toggleColorConjunctions(false)
+          : ds.toggleColorConjunctions(true);
+      },
+    },
+  ];
+
+  const buttonsChart = [
+    {
+      name: "Bar Chart",
+      color: `${ds.isToggleColorBarChart ? "click" : "clicked"}`,
+      func: () => {
+        ds.toggleColorBarChart(!ds.isToggleColorBarChart);
+        ds.toggleBar(!ds.isToggleBar);
+      },
+    },
+    {
+      name: "Doughnuc Chart",
+      color: `${ds.isToggleColorDoughnutChart ? "click" : "clicked"}`,
+      func: () => {
+        ds.toggleColorDoughnutChart(!ds.isToggleColorDoughnutChart);
+        ds.toggleDoughnut(!ds.isToggleDoughnut);
+      },
+    },
+  ];
+
   const onOptionChangeHandler = (e: any) => {
     setInputLetter(e.target.value);
     ds.resetAll();
@@ -65,88 +120,27 @@ function MainPage() {
           </Select>
           <h5 style={{ margin: 5 }}>(Choose one option or more)</h5>
           How many words... <br />
-          <StyleButton
-            type="button"
-            title="Click to dispaly how many words start with the letter above"
-            color={ds.isToggleColorStart ? "click" : "clicked"}
-            onClick={() => {
-              ds.totalStart !== 0
-                ? ds.resetCountStart()
-                : ds.wordsStart(inputLetter);
-              ds.totalStart === 0
-                ? ds.toggleColorStart(false)
-                : ds.toggleColorStart(true);
-            }}
-          >
-            Start With The Letter Above
-          </StyleButton>
-          <StyleButton
-            type="button"
-            title="Click to dispaly how many words end with the letter above"
-            color={ds.isToggleColorEnd ? "click" : "clicked"}
-            onClick={() => {
-              ds.totalEnd !== 0 ? ds.resetCountEnd() : ds.wordsEnd(inputLetter);
-              ds.totalEnd === 0
-                ? ds.toggleColorEnd(false)
-                : ds.toggleColorEnd(true);
-            }}
-          >
-            End With The Letter Above
-          </StyleButton>
-          <br /> How many times the letter above... <br />
-          <StyleButton
-            type="button"
-            title="Click to dispaly how many times the letter above appears in total"
-            color={ds.isToggleColorAppearsTotal ? "click" : "clicked"}
-            onClick={() => {
-              ds.totalAppears !== 0
-                ? ds.resetCountAppearsTotal()
-                : ds.wordsAppearsTotal(inputLetter);
-              ds.totalAppears === 0
-                ? ds.toggleColorAppearsTotal(false)
-                : ds.toggleColorAppearsTotal(true);
-            }}
-          >
-            Appears In Total <br />
-          </StyleButton>
-          <StyleButton
-            type="button"
-            title="Click to dispaly how many times the letter above repeates in conjunction"
-            color={ds.isToggleColorConjunctions ? "click" : "clicked"}
-            onClick={() => {
-              ds.totalConjunctions !== 0
-                ? ds.resetCountConjunctions()
-                : ds.wordsConjunctions(inputLetter);
-              ds.totalConjunctions === 0
-                ? ds.toggleColorConjunctions(false)
-                : ds.toggleColorConjunctions(true);
-            }}
-          >
-            Repeates In Conjunctions
-          </StyleButton>
+          {buttonsOptions.map((btn, key) => (
+            <Button
+              key={key}
+              name={btn.name}
+              title={btn.title}
+              color={btn.color}
+              func={btn.func}
+            />
+          ))}
         </TopWrapper>
 
         <TopWrapper>
-          {" "}
           Chart Option: <br />
-          <StyleButton
-            color={ds.isToggleColorBarChart ? "click" : "clicked"}
-            onClick={() => {
-              ds.toggleColorBarChart(!ds.isToggleColorBarChart);
-              ds.toggleBar(!ds.isToggleBar);
-            }}
-          >
-            Bar Chart
-          </StyleButton>
-          <StyleButton
-            color={ds.isToggleColorDoughnutChart ? "click" : "clicked"}
-            onClick={() => {
-              ds.toggleColorDoughnutChart(!ds.isToggleColorDoughnutChart);
-              ds.toggleDoughnut(!ds.isToggleDoughnut);
-            }}
-          >
-            Doughnuc Chart
-          </StyleButton>
+          {buttonsChart.map((btn, key) => (
+            <Button
+              key={key}
+              name={btn.name}
+              color={btn.color}
+              func={btn.func}
+            />
+          ))}
         </TopWrapper>
 
         {ds.isToggleBar && <BarChart />}
