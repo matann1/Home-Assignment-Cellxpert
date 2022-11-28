@@ -14,7 +14,6 @@ const Card: any = styled.div`
   margin-right: 10%;
   margin-bottom: 5%;
   padding: 5px;
-  background-color: #fff5e4;
   border-radius: 15px;
   &:hover {
     box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, 2);

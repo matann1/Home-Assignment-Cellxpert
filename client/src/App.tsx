@@ -1,12 +1,11 @@
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import React from "react";
-import imageWords from "./words.jpg";
-// import "./App.css";
+import backgroundImage from "./background.jpg";
 
-import MainPage from "./MainPage";
+import MainPage from "./Pages/MainPage";
 
-const Warpper = styled.h1`
+const Warpper = styled.div`
   font-size: 20px;
   text-transform: uppercase;
   font-family: "Josefin Sans", sans-serif;
@@ -16,7 +15,6 @@ const Warpper = styled.h1`
   text-fill-color: transparent;
   animation: textclip 3.5s linear infinite;
   display: inline-block;
-
   @keyframes textclip {
     to {
       background-position: 200% center;
@@ -26,17 +24,14 @@ const Warpper = styled.h1`
 
 function App() {
   return (
-    <div>
+    <>
       <Global
         styles={css`
           body {
             text-align: center;
-            background-image: url(${imageWords});
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-image: url(${backgroundImage});
             background-size: cover;
             background-position: center;
-            font-size: 30px;
           }
         `}
       />
@@ -44,7 +39,7 @@ function App() {
         <h1>Queries at the English dictionary</h1>
       </Warpper>
       <MainPage />
-    </div>
+    </>
   );
 }
 

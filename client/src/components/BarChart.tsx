@@ -13,9 +13,7 @@ const Card: any = styled.div`
   margin-left: 10%;
   margin-right: 10%;
   margin-bottom: 2%;
-  background-color: #fff5e4;
   border-radius: 15px;
-
   &:hover {
     box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, 2);
   }
